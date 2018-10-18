@@ -128,7 +128,7 @@ public class Knapsack {
     System.out.printf("%5s%7d%7d\n", nome[i - 1], w[i - 1], v[i - 1]);
     K -= w[i - 1];
    }
-  System.out.println("Lucro m�ximo : " + V[n][W]);
+  System.out.println("Lucro máximo : " + V[n][W]);
  }
 
  public static void main(String[] args) throws IOException {
@@ -145,3 +145,4 @@ public class Knapsack {
   obj.knapsack();
  }
 }
+// não mudei nada
