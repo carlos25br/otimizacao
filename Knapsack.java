@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -273,7 +274,7 @@ public class JFPrincipal extends javax.swing.JFrame {
    /**
    * Computes the result
    */
-      public void knapsack() {
+      public void knapsack() throws IOException{
       //table for backtracking to get the items chosen
          int x[][] = new int[n + 1][W + 1];
       //filling tables
@@ -305,9 +306,13 @@ public class JFPrincipal extends javax.swing.JFrame {
             resposta += " Esta média está acima do salário mínimo de " + df.format(SALARIO_MINIMO_HORA);
          }
          if(K < W){
-            resposta += "\nApenas " + (W-K)/60 + " horas de " + W/60 + " serão consumidas.";
+            resposta += "\nApenas " + (W-K)/60 + "h" + (W-K)%60 + "min de " + W/60 + "h serão consumidas.";
          }
-         System.out.println(resposta);
+         FileWriter arq = new FileWriter("RespostaMochila.txt");
+         PrintWriter gravarArq = new PrintWriter(arq);
+            gravarArq.printf(resposta);
+            arq.close();
+         //System.out.println(resposta);
       /*  System.out.printf("Produtos Escolhidos\n%5s%7s%7s\n", "Item", "Tempo", "Valor");
       System.out.println("Tempo disponivel em horas: " + W + "\nLucro máximo: " + V[n][W] + " Reais\nTempo restante:" + K);*/
       }      }
