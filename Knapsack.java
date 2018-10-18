@@ -5,17 +5,20 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Knapsack {
 
  private int n, W; 
- private int w[], v[]; 
+ private int w[];  
  private String nome[];
- private int V[][]; 
+ private double V[][]; 
+ private double v[];
  private FileWriter fileWriter;
  private BufferedWriter bufferedWriter;
+ private final double SALARIO_MINIMO_HORA = 4.34;
 
  public Boolean parseInput(String input, int i, Boolean writeToFile) throws IOException {
   String parsedLine[] = input.split(",");
@@ -25,14 +28,12 @@ public class Knapsack {
   }
   nome[i] = parsedLine[0];
   try {
-   // checking valid integer using parseInt() method 
    v[i] = Integer.parseInt(parsedLine[1]);
   } catch (NumberFormatException e) {
    System.out.println(parsedLine[1] + " nao e um valor valido");
    return false;
   }
   try {
-   // checking valid integer using parseInt() method 
    w[i] = Integer.parseInt(parsedLine[2]);
   } catch (NumberFormatException e) {
    System.out.println(parsedLine[2] + " nao e um valor valido");
@@ -52,7 +53,7 @@ public class Knapsack {
   System.out.print("Tempo disponivel em horas : ");
   W = sc.nextInt(); //capacity of knapsack
   w = new int[n];
-  v = new int[n];
+  v = new double[n];
   nome = new String[n];
   System.out.println("Entre com o nome, valor e tempo de producao dos items, separado por virgulas : ");
   sc.nextLine();
@@ -77,7 +78,7 @@ public class Knapsack {
   }
   n = readStrings.size();
   w = new int[n];
-  v = new int[n];
+  v = new double[n];
   nome = new String[n];
   for (int i = 0; i < n; i++) {
    parseInput(readStrings.get(i), i, false);
@@ -99,7 +100,7 @@ public class Knapsack {
   } else {
    openFileForInput(inputFile, weight);
   }
-  V = new int[n + 1][W + 1]; //initializing the table to hold results
+  V = new double[n + 1][W + 1]; //initializing the table to hold results
   for (int i = 0; i <= W; i++) V[0][i] = 0;
  }
 
@@ -121,14 +122,29 @@ public class Knapsack {
    x[i][j] = 0;
   }
   //backtracking
-  System.out.printf("Items Chosen\n%5s%7s%7s\n", "Item", "Tempo", "Valor");
+  DecimalFormat df = new DecimalFormat("#.##");
+  String resposta = "Para maximizar o lucro, os seguintes pedidos da lista deverão ser aceitos:\n";
   int K = W;
   for (int i = n; i >= 1; i--)
    if (x[i][K] == 1) {
-    System.out.printf("%5s%7d%7d\n", nome[i - 1], w[i - 1], v[i - 1]);
+    //System.out.printf("%5s%7d%7d\n", nome[i - 1], w[i - 1], v[i - 1]);
+	resposta += nome[i-1] + ",\n";
     K -= w[i - 1];
    }
-  System.out.println("Lucro m�ximo : " + V[n][W]);
+  double avgHour = V[n][W]/(W-K);
+  resposta = resposta.substring(0, resposta.length()-2) + ".\nO lucro total é de "+ V[n][W] + " reais, com um lucro/hora de " + df.format(avgHour) + " reais." ;
+  if(avgHour < SALARIO_MINIMO_HORA){
+	  resposta += " Esta média está abaixo do salário mínimo de " + df.format(SALARIO_MINIMO_HORA) + " reais.";
+  }else{
+	  resposta += " Esta média está acima do salário mínimo de " + df.format(SALARIO_MINIMO_HORA);
+  }
+  if(K < W){
+	  resposta += "\nApenas " + (W-K) + " horas de " + W + " serão consumidas.";
+  }
+  System.out.println(resposta);
+/*  System.out.printf("Produtos Escolhidos\n%5s%7s%7s\n", "Item", "Tempo", "Valor");
+
+  System.out.println("Tempo disponivel em horas: " + W + "\nLucro máximo: " + V[n][W] + " Reais\nTempo restante:" + K);*/
  }
 
  public static void main(String[] args) throws IOException {
