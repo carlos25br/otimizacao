@@ -1,0 +1,11 @@
+beijinho,34,60
+brigadeiro copinho,20,15
+torta de waffer,50,60
+bolo de sorvete,60,144
+gelatina arco-iris,30,150
+mousse de maracuja,50,15
+copinho de chocolate,23,40
+palha italiana,30,10
+rocambole,50,40
+trufas,40,30
+alfajor,38,90
