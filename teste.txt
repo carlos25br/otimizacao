@@ -2,6 +2,6 @@ bolo de chocolate,60,50
 doces,60,10
 suspiro,40,20
 tcc,4000,100000
-foracao academica,
+aula pratica habilitacao,1500,-1000
 diploma,1267200,8001
 hora aula,100,18 
